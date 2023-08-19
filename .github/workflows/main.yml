@@ -1,0 +1,26 @@
+name: Auto Pull from Upstream
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "james"
+          git config --global user.email "james2002chen@gmail.com"
+
+      - name: Pull from Upstream
+        run: |
+          git remote add upstream https://github.com/kwaroran/RisuAI
+          git fetch upstream
+          git checkout main
+          git merge upstream/main --no-edit
+          git push origin main
